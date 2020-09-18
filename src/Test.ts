@@ -1,3 +1,6 @@
+const now = require("performance-now");
+
+
 /**
  * A test represents a code that shall be run and afterwards compared regarding the performance
  */
@@ -44,9 +47,15 @@ export class Test {
      * @param fn The function that will run when the event is called
      */
     on(eventName: string, fn: (test: Test) => void): Test {
-        this[eventName] = fn;
+        if (eventName.substr(0, 2) == "on" && this.hasOwnProperty(eventName))
+            this[eventName] = fn;
         return this;
     }
 
-    run(): void { };
+    run(): void {
+        let startTime = now();
+        let endTime = now();
+
+        console.log((endTime - startTime).toFixed(3) + " ms");
+    };
 }

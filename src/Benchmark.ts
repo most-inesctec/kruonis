@@ -1,4 +1,4 @@
-import { Test } from "./Test";
+import { BenchmarkProperties, Test } from "./internal";
 
 /**
  * The main class.
@@ -6,51 +6,37 @@ import { Test } from "./Test";
  */
 export class Benchmark {
 
-    /* Benchmark properties */
+    /**
+     * This Benchmark properties
+     */
+    private properties: BenchmarkProperties = null;
 
     /**
-     * The minimum number of cycle runs
+     * The tests added by the user, to be run
      */
-    private minRuns: number = 10;
+    private tests: Array<Test> = [];
 
     /**
-     * The maximum number of cycle  runs.
-     * The algorithm always tries to run the maximum number of runs 
+     * Benchmark constructor
+     * 
+     * @param properties This Benchmark properties used to create a properties object
      */
-    private maxRuns: number = 100;
-
-    /**
-     * The maximum time a test can run, in seconds.
-     * Note that minRuns has priority over this setting.
-     */
-    private maxTime: number = 15;
-
-    /**
-     * The Benchmark name
-     */
-    private name: string = undefined;
-
-    constructor(options?: object) {
-        //If options is an object
-        if (options === Object(options))
-            for (let option_name of Object.keys(options))
-                // Only update properties that exist
-                if (this.hasOwnProperty(option_name))
-                    this[option_name] = options[option_name];
+    constructor(properties?: object) {
+        this.properties = new BenchmarkProperties(properties);
     }
 
-    getOptions(): object {
-        const options = {}
-
-        for (let option_name of Object.keys(this))
-            options[option_name] = this[option_name];
-
-        return options;
+    getProperties(): object {
+        return this.properties.getProperties();
     }
 
     add(testName: string, fn: () => void): Test {
-        return new Test(testName, fn);
+        let newTest: Test = new Test(testName, fn);
+        this.tests.push(newTest);
+        return newTest;
     };
 
-    run(): void { };
+    run(): void {
+        for (let test of this.tests)
+            test.run();
+    };
 }
