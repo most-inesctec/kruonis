@@ -63,14 +63,8 @@ export class Test {
 
         this.onBegin(this);
 
-        while (true) {
-            // Stop conditions
-            if (this.cycleTimes.length >= minCycles) {
-                if (totalTime >= maxTimeMS)
-                    break;
-                if (this.cycleTimes.length >= maxCycles)
-                    break;
-            }
+        while (this.cycleTimes.length < minCycles ||
+            (totalTime < maxTimeMS && this.cycleTimes.length < maxCycles)) {
 
             // Measure performance
             let startTime = now();
