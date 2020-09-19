@@ -12,12 +12,12 @@ export class Test {
     /**
      * The measured times for the ran cycles, in milliseconds
      */
-    private cycleTimes: Array<number> = null;
+    private cycleTimes: Array<number> = [];
 
     /**
      * The stats obtained by running this test
      */
-    private stats = null;
+    private stats: Stats = null;
 
     /**
      * Function to run on the begin of the test cycle
@@ -38,7 +38,7 @@ export class Test {
      * @param name The test name
      * @param fn The function to be run
      */
-    constructor(private name: string, private fn: () => void) { }
+    constructor(readonly name: string, private fn: () => void) { }
 
     /**
      * Add an event to this Test. Possibilities:
@@ -79,6 +79,7 @@ export class Test {
 
             // Save times
             this.cycleTimes.push(endTime - startTime);
+            totalTime += endTime - startTime;
 
             this.onCycle(this);
         }
@@ -87,4 +88,8 @@ export class Test {
 
         this.onEnd(this);
     };
+
+    getStats(): Stats {
+        return this.stats;
+    }
 }

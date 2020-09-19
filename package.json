@@ -4,7 +4,7 @@
   "description": "A tool to perform benchmarks on TS",
   "main": "src/index.ts",
   "scripts": {
-    "test": "mocha -r ts-node/register tests/*.test.ts"
+    "test": "mocha --timeout 15000 -r ts-node/register tests/*.test.ts"
   },
   "repository": {
     "type": "git",

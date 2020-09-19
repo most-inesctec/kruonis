@@ -1,4 +1,4 @@
-import { BenchmarkProperties, Test } from "./internal";
+import { BenchmarkProperties, Test, Stats } from "./internal";
 
 /**
  * The main class.
@@ -29,14 +29,19 @@ export class Benchmark {
         return this.properties.getProperties();
     }
 
-    add(testName: string, fn: () => void): Test {
-        let newTest: Test = new Test(testName, fn);
-        this.tests.push(newTest);
-        return newTest;
+    add(testName: string, fn: () => void): Benchmark {
+        this.tests.push(new Test(testName, fn));
+        return this;
     };
 
-    run(): void {
-        for (let test of this.tests)
+    run(): Array<[string, Stats]> {
+        let results: Array<[string, Stats]> = [];
+
+        for (let test of this.tests) {
             test.run(this.getProperties());
+            results.push([test.name, test.getStats()]);
+        }
+
+        return results;
     };
 }
