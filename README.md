@@ -1,4 +1,6 @@
-# :watch: kruonis :watch: 
+# :hourglass: kruonis :hourglass:
+
+[![Build Status](https://travis-ci.com/most-inesctec/kruonis.svg?token=J52cxsfW92GANe4gUJgy&branch=master)](https://travis-ci.com/most-inesctec/kruonis)
 
 A tool to perform benchmarks on _TypeScript_.
 

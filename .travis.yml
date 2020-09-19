@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - "10"
+before_install:
+  - npm install
+script:
+  - npm test
+  # - npm run test-coverage
+
+notifications:
+  email: false
