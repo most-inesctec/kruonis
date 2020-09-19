@@ -6,17 +6,17 @@ export class BenchmarkProperties {
     /**
      * The minimum number of cycle runs
      */
-    private minRuns: number = 10;
+    private minCycles: number = 10;
 
     /**
      * The maximum number of cycle  runs.
      * The algorithm always tries to run the maximum number of runs 
      */
-    private maxRuns: number = 100;
+    private maxCycles: number = 100;
 
     /**
      * The maximum time a test can run, in seconds.
-     * Note that minRuns has priority over this setting.
+     * Note that minCycles has priority over this setting.
      */
     private maxTime: number = 15;
 

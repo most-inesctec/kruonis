@@ -37,6 +37,6 @@ export class Benchmark {
 
     run(): void {
         for (let test of this.tests)
-            test.run();
+            test.run(this.getProperties());
     };
 }

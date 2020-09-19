@@ -1,3 +1,7 @@
+import { Benchmark } from "./Benchmark";
+import { BenchmarkProperties } from "./BenchmarkProperties";
+import { Stats } from "fs";
+
 const now = require("performance-now");
 
 
@@ -6,15 +10,17 @@ const now = require("performance-now");
  */
 export class Test {
 
+    private static readonly SECONDS_TO_MILLISECONDS = 1000;
+
     /**
-     * The measured times for the ran cycles
+     * The measured times for the ran cycles, in milliseconds
      */
-    private runTimes: Array<number> = null;
+    private cycleTimes: Array<number> = null;
 
     /**
      * The stats obtained by running this test
      */
-    private Stats = null;
+    private stats = null;
 
     /**
      * Function to run on the begin of the test cycle
@@ -52,10 +58,36 @@ export class Test {
         return this;
     }
 
-    run(): void {
-        let startTime = now();
-        let endTime = now();
+    run(testProperties: any): void {
+        // Times are measured in milliseconds
+        let totalTime = 0;
+        const { minCycles, maxCycles, maxTime } = testProperties;
+        const maxTimeMS = maxTime * Test.SECONDS_TO_MILLISECONDS;
 
-        console.log((endTime - startTime).toFixed(3) + " ms");
+        this.onBegin(this);
+
+        while (true) {
+            // Stop conditions
+            if (this.cycleTimes.length >= minCycles) {
+                if (totalTime >= maxTimeMS)
+                    break;
+                if (this.cycleTimes.length >= maxCycles)
+                    break;
+            }
+
+            // Measure performance
+            let startTime = now();
+            this.fn();
+            let endTime = now();
+
+            // Save times
+            this.cycleTimes.push(endTime - startTime);
+
+            this.onCycle(this);
+        }
+
+        this.stats = new Stats(this.cycleTimes);
+
+        this.onEnd(this);
     };
 }
