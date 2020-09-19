@@ -1,18 +1,19 @@
+import { Mean, StandardDeviation as Std, Count, Maximum as Max, Minimum as Min } from './internal';
+
 /**
  * The stats resultant of running a test
  */
 export class Stats {
 
-    // Can easily add more stats
-    avg: number;
+    readonly mean: number;
 
-    std: number;
+    readonly std: number;
 
-    min: number;
+    readonly count: number;
 
-    max: number;
+    readonly max: number;
 
-    count: number;
+    readonly min: number;
 
     /**
      * Constructor
@@ -20,7 +21,11 @@ export class Stats {
      * @param cycleTimes list of obtained performance times of each cycle
      */
     constructor(cycleTimes: Array<number>) {
-        // TODO
+        this.mean = new Mean().calculate(cycleTimes);
+        this.std = new Std().calculate(cycleTimes);
+        this.count = new Count().calculate(cycleTimes);
+        this.max = new Max().calculate(cycleTimes);
+        this.min = new Min().calculate(cycleTimes);
     }
 
 }

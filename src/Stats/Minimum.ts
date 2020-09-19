@@ -1,8 +1,8 @@
 import { Stat } from './internal';
 
-export class Count implements Stat {
+export class Minimum implements Stat {
 
     calculate(values: Array<number>): number {
-        return values.length;
+        return Math.min(...values);
     }
 }

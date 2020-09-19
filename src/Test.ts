@@ -1,9 +1,6 @@
-import { Benchmark } from "./Benchmark";
-import { BenchmarkProperties } from "./BenchmarkProperties";
-import { Stats } from "fs";
+import { Stats } from "./internal";
 
 const now = require("performance-now");
-
 
 /**
  * A test represents a code that shall be run and afterwards compared regarding the performance
