@@ -53,7 +53,7 @@ describe('Functionality Tests', () => {
         expect(test3_stats.count).to.be.lessThan(100);
     });
 
-    it('*on* Test Events', () => {
+    it('Test onEvents', () => {
         const benchmark: Benchmark = new Benchmark();
         let iterator: number = 0;
         let start: boolean = false;
@@ -78,5 +78,28 @@ describe('Functionality Tests', () => {
         expect(mockStats.count).to.be.equal(10);
         expect(mockStats.max).to.be.equal(18);
         expect(mockStats.min).to.be.equal(6);
+    });
+
+    it('Benchmark onEvents', () => {
+        const benchmark: Benchmark = new Benchmark();
+        let start: number = 0;
+        let end: string = '';
+
+        // Adding Tests
+        benchmark.add('test1', () => { });
+        benchmark.add('test2', () => { let _ = 1 + 1; });
+
+        // Adding Events to Benchmark
+        benchmark.on('onBegin', (benchmark: Benchmark) => {
+            start = benchmark.getTests().length;
+        });
+        benchmark.on('onEnd', (benchmark: Benchmark) => {
+            end = benchmark.getTests()[1].name;
+        });
+
+        benchmark.run();
+
+        expect(start).to.be.equal(2);
+        expect(end).to.be.equal('test2');
     });
 });
