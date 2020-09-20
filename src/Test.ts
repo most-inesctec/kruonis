@@ -55,6 +55,11 @@ export class Test {
         return this;
     }
 
+    /**
+     * Run this test according to the given testProperties
+     * 
+     * @param testProperties the testProperties to use on this test. Similar to a @BenchmarkProperties object
+     */
     run(testProperties: any): void {
         // Times are measured in milliseconds
         let totalTime = 0;
@@ -83,6 +88,11 @@ export class Test {
         this.onEnd(this);
     };
 
+    /**
+     * Get the stats obtained by running this test
+     * 
+     * @return @Stats instance
+     */
     getStats(): Stats {
         return this.stats;
     }

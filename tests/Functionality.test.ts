@@ -53,7 +53,7 @@ describe('Functionality Tests', () => {
         expect(test3_stats.count).to.be.lessThan(100);
     });
 
-    it('*on* Events', () => {
+    it('*on* Test Events', () => {
         const benchmark: Benchmark = new Benchmark();
         let iterator: number = 0;
         let start: boolean = false;
