@@ -39,7 +39,10 @@ describe('Functionality Tests', () => {
         benchmark.add('test1', () => { let temp = 1 + 1 });
         benchmark.add('test2', () => sleep(600));
         benchmark.add('test3', () => sleep(200));
+
         const results: Array<[string, Stats]> = benchmark.run();
+        expect(results).to.be.equal(benchmark.getResults());
+    
         const test1_stats: Stats = results[0][1];
         const test2_stats: Stats = results[1][1];
         const test3_stats: Stats = results[2][1];
@@ -84,7 +87,7 @@ describe('Functionality Tests', () => {
     });
 
     it('Benchmark onEvents', () => {
-        const benchmark: Benchmark = new Benchmark({'name': 'Benchmark'});
+        const benchmark: Benchmark = new Benchmark({ 'name': 'Benchmark' });
         let start: number = 0;
         let startTest: string = '';
         let endTest: number = 0;
