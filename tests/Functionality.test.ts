@@ -55,18 +55,21 @@ describe('Functionality Tests', () => {
 
     it('Test onEvents', () => {
         const benchmark: Benchmark = new Benchmark();
-        let iterator: number = 0;
+        let startIterator: number = 0;
+        let endIterator: number = 0;
         let start: boolean = false;
         let end: number = 0;
 
         const test: Test = benchmark.add('test', () => { });
         test.on('onBegin', (_: Test) => start = true);
-        test.on('onCycle', (_: Test) => iterator++);
+        test.on('onCycleBegin', (_: Test) => startIterator++);
+        test.on('onCycleEnd', (_: Test) => endIterator--);
         test.on('onEnd', (test: Test) => end = test.getStats().count * 2);
         benchmark.run();
 
         expect(start).to.be.true;
-        expect(iterator).to.be.equal(100);
+        expect(startIterator).to.be.equal(100);
+        expect(endIterator).to.be.equal(-100);
         expect(end).to.be.equal(200);
     });
 

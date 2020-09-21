@@ -23,12 +23,12 @@ export class Benchmark {
     private results: Array<[string, Stats]> = [];
 
     /**
-     * Function to run before running the tests
+     * Function to run on the beginning of this benchmark
      */
     private onBegin: (benchmark: Benchmark) => void = (benchmark: Benchmark) => { };
 
     /**
-     * Function to run on the end of all tests
+     * Function to run on the end of the benchmark (on the end of all tests)
      */
     private onEnd: (benchmark: Benchmark) => void = (benchmark: Benchmark) => { };
 

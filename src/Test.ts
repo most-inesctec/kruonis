@@ -20,14 +20,19 @@ export class Test {
     private stats: Stats = null;
 
     /**
-     * Function to run on the begin of the test cycle
+     * Function to run on the begin of the test
      */
     private onBegin: (test: Test) => void = (test: Test) => { };
 
     /**
+     * Function to run after before running each cycle
+     */
+    private onCycleBegin: (test: Test) => void = (test: Test) => { };
+
+    /**
      * Function to run after each cycle completes
      */
-    private onCycle: (test: Test) => void = (test: Test) => { };
+    private onCycleEnd: (test: Test) => void = (test: Test) => { };
 
     /**
      * Function to run on the end of all test cycles
@@ -81,6 +86,8 @@ export class Test {
         while (this.cycleTimes.length < minCycles ||
             (totalTime < maxTimeMS && this.cycleTimes.length < maxCycles)) {
 
+            this.onCycleBegin(this);
+
             // Measure performance
             const startTime = now();
             this.fn();
@@ -95,7 +102,7 @@ export class Test {
             this.cycleTimes.push(testTime);
             totalTime += testTime;
 
-            this.onCycle(this);
+            this.onCycleEnd(this);
         }
 
         this.stats = new Stats(this.cycleTimes);
