@@ -102,4 +102,27 @@ describe('Functionality Tests', () => {
         expect(start).to.be.equal(2);
         expect(end).to.be.equal('test2');
     });
+
+    it('Base time', () => {
+        const benchmark: Benchmark = new Benchmark();
+        benchmark.add('testZero', () => { });
+        benchmark.add('testNotZero', () => {
+            const array: number[] = [1, 2, 3];
+            for (let i in array)
+                array[i] *= array[i];
+        });
+        benchmark.add('testCloseToZero', () => {
+            let t: number = 1 + 1;
+            t += 3 * t;
+        });
+        const results: Array<[string, Stats]> = benchmark.run();
+
+        //First test, since empty, should be very close to zero
+        expect(results[0][1].mean.toFixed(3)).to.be.equal("0.000");
+        // Greater than zero
+        expect(results[1][1].mean.toFixed(3)).to.not.be.equal("0.000");
+        // Number very close to zero
+        expect(results[2][1].mean.toFixed(3)).to.be.equal("0.000");
+        expect(results[2][1].mean).to.be.greaterThan(results[0][1].mean);
+    });
 });

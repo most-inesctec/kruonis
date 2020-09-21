@@ -56,6 +56,15 @@ export class Test {
     }
 
     /**
+     * Gets the test baseline time (the time it takes to measure the times)
+     */
+    private getBaselineTime(): number {
+        const startTime = now();
+        const endTime = now();
+        return endTime - startTime;
+    }
+
+    /**
      * Run this test according to the given testProperties
      * 
      * @param testProperties the testProperties to use on this test. Similar to a @BenchmarkProperties object
@@ -65,6 +74,7 @@ export class Test {
         let totalTime = 0;
         const { minCycles, maxCycles, maxTime } = testProperties;
         const maxTimeMS = maxTime * Test.SECONDS_TO_MILLISECONDS;
+        const baselineTime: number = this.getBaselineTime();
 
         this.onBegin(this);
 
@@ -72,13 +82,18 @@ export class Test {
             (totalTime < maxTimeMS && this.cycleTimes.length < maxCycles)) {
 
             // Measure performance
-            let startTime = now();
+            const startTime = now();
             this.fn();
-            let endTime = now();
+            const endTime = now();
+
+            // Remove baseline times from performance testing
+            let testTime = (endTime - startTime - baselineTime);
+            // Because of small deviations
+            testTime = testTime < 0 ? 0 : testTime;
 
             // Save times
-            this.cycleTimes.push(endTime - startTime);
-            totalTime += endTime - startTime;
+            this.cycleTimes.push(testTime);
+            totalTime += testTime;
 
             this.onCycle(this);
         }
