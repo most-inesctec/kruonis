@@ -84,8 +84,10 @@ describe('Functionality Tests', () => {
     });
 
     it('Benchmark onEvents', () => {
-        const benchmark: Benchmark = new Benchmark();
+        const benchmark: Benchmark = new Benchmark({'name': 'Benchmark'});
         let start: number = 0;
+        let startTest: string = '';
+        let endTest: number = 0;
         let end: string = '';
 
         // Adding Tests
@@ -96,6 +98,12 @@ describe('Functionality Tests', () => {
         benchmark.on('onBegin', (benchmark: Benchmark) => {
             start = benchmark.getTests().length;
         });
+        benchmark.on('onTestBegin', (benchmark: Benchmark, test: Test) => {
+            startTest = benchmark.getProperties().name;
+        });
+        benchmark.on('onTestEnd', (benchmark: Benchmark, test: Test) => {
+            endTest += test.getStats().count;
+        });
         benchmark.on('onEnd', (benchmark: Benchmark) => {
             end = benchmark.getTests()[1].name;
         });
@@ -103,10 +111,12 @@ describe('Functionality Tests', () => {
         benchmark.run();
 
         expect(start).to.be.equal(2);
+        expect(startTest).to.be.equal('Benchmark');
+        expect(endTest).to.be.equal(200);
         expect(end).to.be.equal('test2');
     });
 
-    it('Base time', () => {
+    it('Baseline time', () => {
         const benchmark: Benchmark = new Benchmark();
         benchmark.add('testZero', () => { });
         benchmark.add('testNotZero', () => {

@@ -30,6 +30,16 @@ export class Benchmark {
     /**
      * Function to run on the end of the benchmark (on the end of all tests)
      */
+    private onTestBegin: (benchmark: Benchmark, test: Test) => void = (benchmark: Benchmark, test: Test) => { };
+
+    /**
+     * Function to run on the end of the benchmark (on the end of all tests)
+     */
+    private onTestEnd: (benchmark: Benchmark, test: Test) => void = (benchmark: Benchmark, test: Test) => { };
+
+    /**
+     * Function to run on the end of the benchmark (on the end of all tests)
+     */
     private onEnd: (benchmark: Benchmark) => void = (benchmark: Benchmark) => { };
 
     /**
@@ -44,8 +54,8 @@ export class Benchmark {
     /**
      * Get the @BenchmarkProperties used in this Benchmark, as an object 
      */
-    getProperties(): object {
-        return this.properties.getProperties();
+    getProperties() {
+        return this.properties;
     }
 
     /**
@@ -79,12 +89,14 @@ export class Benchmark {
     /**
      * Add an event to this Benchmark. Possibilities:
      *  - 'onBegin'
+     *  - 'onTestBegin'
+     *  - 'onTestEnd'
      *  - 'onEnd'
      * 
      * @param eventName The name of the event to be altered
      * @param fn The function that will run when the event is called
      */
-    on(eventName: string, fn: (test: Benchmark) => void): Benchmark {
+    on(eventName: string, fn): Benchmark {
         if (eventName.substr(0, 2) == "on" && this.hasOwnProperty(eventName))
             this[eventName] = fn;
         return this;
@@ -99,8 +111,12 @@ export class Benchmark {
         this.onBegin(this);
 
         for (let test of this.tests) {
+            this.onTestBegin(this, test);
+
             test.run(this.getProperties());
             this.results.push([test.name, test.getStats()]);
+
+            this.onTestEnd(this, test);
         }
 
         this.onEnd(this);

@@ -48,7 +48,8 @@ export class Test {
     /**
      * Add an event to this Test. Possibilities:
      *  - 'onBegin'
-     *  - 'onCycle'
+     *  - 'onCycleBegin'
+     *  - 'onCycleEnd'
      *  - 'onEnd'
      * 
      * @param eventName The name of the event to be altered
