@@ -36,13 +36,14 @@ describe('Functionality Tests', () => {
         }
 
         const benchmark: Benchmark = new Benchmark({ 'maxTime': 5 });
-        benchmark.add('test1', () => { let temp = 1 + 1 });
-        benchmark.add('test2', () => sleep(600));
-        benchmark.add('test3', () => sleep(200));
+        benchmark
+            .add(new Test('test1', () => { let temp = 1 + 1 }))
+            .add(new Test('test2', () => sleep(600)))
+            .add(new Test('test3', () => sleep(200)));
 
         const results: Array<[string, Stats]> = benchmark.run();
         expect(results).to.be.equal(benchmark.getResults());
-    
+
         const test1_stats: Stats = results[0][1];
         const test2_stats: Stats = results[1][1];
         const test3_stats: Stats = results[2][1];
@@ -63,12 +64,13 @@ describe('Functionality Tests', () => {
         let start: boolean = false;
         let end: number = 0;
 
-        const test: Test = benchmark.add('test', () => { });
-        test.on('onBegin', (_: Test) => start = true);
-        test.on('onCycleBegin', (_: Test) => startIterator++);
-        test.on('onCycleEnd', (_: Test) => endIterator--);
-        test.on('onEnd', (test: Test) => end = test.getStats().count * 2);
-        benchmark.run();
+        benchmark.add(
+            new Test('test', () => { })
+                .on('onBegin', (_: Test) => start = true)
+                .on('onCycleBegin', (_: Test) => startIterator++)
+                .on('onCycleEnd', (_: Test) => endIterator--)
+                .on('onEnd', (test: Test) => end = test.getStats().count * 2))
+            .run();
 
         expect(start).to.be.true;
         expect(startIterator).to.be.equal(100);
@@ -94,8 +96,9 @@ describe('Functionality Tests', () => {
         let end: string = '';
 
         // Adding Tests
-        benchmark.add('test1', () => { });
-        benchmark.add('test2', () => { let _ = 1 + 1; });
+        benchmark
+            .add(new Test('test1', () => { }))
+            .add(new Test('test2', () => { let _ = 1 + 1; }));
 
         // Adding Events to Benchmark
         benchmark.on('onBegin', (benchmark: Benchmark) => {
@@ -121,17 +124,19 @@ describe('Functionality Tests', () => {
 
     it('Baseline time', () => {
         const benchmark: Benchmark = new Benchmark();
-        benchmark.add('testZero', () => { });
-        benchmark.add('testNotZero', () => {
-            const array: number[] = [1, 2, 3];
-            for (let i in array)
-                array[i] *= array[i];
-        });
-        benchmark.add('testCloseToZero', () => {
-            let t: number = 1 + 1;
-            t += 3 * t;
-        });
-        const results: Array<[string, Stats]> = benchmark.run();
+        const results: Array<[string, Stats]> =
+            benchmark
+                .add(new Test('testZero', () => { }))
+                .add(new Test('testNotZero', () => {
+                    const array: number[] = [1, 2, 3];
+                    for (let i in array)
+                        array[i] *= array[i];
+                }))
+                .add(new Test('testCloseToZero', () => {
+                    let t: number = 1 + 1;
+                    t += 3 * t;
+                }))
+                .run();
 
         //First test, since empty, should be very close to zero
         expect(results[0][1].mean.toFixed(3)).to.be.equal("0.000");

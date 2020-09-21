@@ -54,7 +54,7 @@ export class Benchmark {
     /**
      * Get the @BenchmarkProperties used in this Benchmark, as an object 
      */
-    getProperties() {
+    getProperties(): BenchmarkProperties {
         return this.properties;
     }
 
@@ -80,10 +80,9 @@ export class Benchmark {
      * @param fn The function to run on this test
      * @return the created @Test
      */
-    add(testName: string, fn: () => void): Test {
-        const newTest = new Test(testName, fn);
-        this.tests.push(newTest);
-        return newTest;
+    add(test: Test): Benchmark {
+        this.tests.push(test);
+        return this;
     };
 
     /**
