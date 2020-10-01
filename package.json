@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "test": "mocha --timeout 15000 -r ts-node/register tests/*.test.ts",
-    "test-coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha --timeout 15000 -r ts-node/register tests/*.test.ts && nyc report --reporter=text-lcov"
+    "test-coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha --timeout 15000 -r ts-node/register tests/*.test.ts && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
