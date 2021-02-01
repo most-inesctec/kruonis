@@ -1,28 +1,35 @@
 # :hourglass: kruonis :hourglass:
 
+A tool to perform benchmarks on _TypeScript_.
+
+![npm](https://img.shields.io/npm/v/kruonis)
+![NPM](https://img.shields.io/npm/l/kruonis)
 [![BCH compliance](https://bettercodehub.com/edge/badge/most-inesctec/kruonis?branch=master)](https://bettercodehub.com/)
 [![Build Status](https://travis-ci.com/most-inesctec/kruonis.svg?token=J52cxsfW92GANe4gUJgy&branch=master)](https://travis-ci.com/most-inesctec/kruonis)
 [![Coverage Status](https://coveralls.io/repos/github/most-inesctec/kruonis/badge.svg?branch=master)](https://coveralls.io/github/most-inesctec/kruonis?branch=master)
 
-A tool to perform benchmarks on _TypeScript_.
+___Kruonis___ is an embodiment of the Lithuanian goddess of time, as essentially the tool measures the time it takes for code to run.
 
-The tool name deviates from the name of the Lithuanian goddess of time, ___Kruonis___, as essentially the tool measures the time it takes for code to run.
+## tl;dr
 
-Essentially, a __benchmark__ consists of a set of tests.
-When running a benchmark, each __test__ is run several times (test __cycles__) and the performance is compared using the statistics of the several ran cycles.
+A `Benchmark` is a set of `Tests`.
 
-To measure the performances, _kruonis_ employs the [performance-now](https://www.npmjs.com/package/performance-now) package.
+When running a `Benchmark`, each `Test` is run several times (test _cycle_). 
+
+_Kruonis_ summarizes the [statistiscs](https://github.com/most-inesctec/kruonis/blob/master/src/Stats/Stats.ts) of each cycle's performance among all cycles. 
+
+__Note__: we use [performance-now](https://www.npmjs.com/package/performance-now) to measure performance.
 
 
 ## Usage example
 
-First, import _kruonis_ main classes:
+First, import _kruonis_' main classes:
 
 ```TypeScript
 import { Benchmark, Test } from "kruonis";
 ```
 
-Then, lets create a benchmark:
+Then, let's create a benchmark:
 
 ```TypeScript
 let benchmark = new Benchmark();
@@ -149,7 +156,7 @@ benchmark
 }
 ```
 
-The Statistics outputted can be consulted [here](https://github.com/most-inesctec/kruonis/blob/master/src/Stats/Stats.ts). An example of a Stats object is:
+The Statistics outputted can be consulted [here](https://github.com/most-inesctec/kruonis/blob/master/src/Stats/Stats.ts). An example of a `Stats` object is:
 ```TypeScript
 {
     // The mean run time of the test
