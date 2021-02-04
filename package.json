@@ -1,9 +1,11 @@
 {
   "name": "kruonis",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A tool to perform benchmarks on TS",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc",
     "test": "mocha --timeout 15000 -r ts-node/register tests/*.test.ts",
     "test-coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha --timeout 15000 -r ts-node/register tests/*.test.ts && nyc report --reporter=text-lcov | coveralls"
   },
