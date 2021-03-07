@@ -3,6 +3,7 @@
 A tool to perform benchmarks on _TypeScript_.
 
 ![npm](https://img.shields.io/npm/v/kruonis)
+![npm](https://img.shields.io/npm/dm/kruonis)
 ![NPM](https://img.shields.io/npm/l/kruonis)
 [![BCH compliance](https://bettercodehub.com/edge/badge/most-inesctec/kruonis?branch=master)](https://bettercodehub.com/)
 [![Build Status](https://travis-ci.com/most-inesctec/kruonis.svg?token=J52cxsfW92GANe4gUJgy&branch=master)](https://travis-ci.com/most-inesctec/kruonis)
